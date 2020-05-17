@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+
+<settings pass="specialize">
+	<component name="Microsoft-Windows-Deployment"
+	processorArchitecture="amd64"
+	publicKeyToken="31bf3856ad364e35" language="neutral"
+	versionScope="nonSxS"
+	xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<RunSynchronous>
+             <RunSynchronousCommand wcm:action="add">
+				<Description>EnableAdmin</Description>
+				<Order>1</Order>
+				<Path>cmd /c net user Administrator /active:yes</Path>
+             </RunSynchronousCommand>
+             <RunSynchronousCommand wcm:action="add">
+				<Description>UnfilterAdministratorToken</Description>
+				<Order>2</Order>
+				<Path>cmd /c reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v FilterAdministratorToken /t REG_DWORD /d 0 /f</Path>
+             </RunSynchronousCommand>
+			 <RunSynchronousCommand wcm:action="add">
+				<Order>3</Order>
+				<Path>reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableFirstLogonAnimation /d 0 /t REG_DWORD /f</Path>
+			</RunSynchronousCommand>
+			<RunSynchronousCommand wcm:action="add">
+				<Order>4</Order>
+				<Path>reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableFirstLogonAnimation /d 0 /t REG_DWORD /f</Path>
+			</RunSynchronousCommand>
+			<RunSynchronousCommand wcm:action="add">
+				<Path>powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c</Path>
+				<Order>5</Order>
+			</RunSynchronousCommand>
+			<RunSynchronousCommand wcm:action="add">
+				<Path>net accounts /MAXPWAGE:UNLIMITED</Path>
+				<Order>6</Order>
+			</RunSynchronousCommand>
+			<RunSynchronousCommand wcm:action="add">
+				<Path>cscript.exe \windows\system32\slmgr.vbs /ipk NQVPD-9WY2R-9TTTY-CMTMF-8426G</Path>
+				<Order>98</Order>
+			</RunSynchronousCommand>
+			<RunSynchronousCommand wcm:action="add">
+				<Path>cscript.exe \windows\system32\slmgr.vbs /ato</Path>
+				<Order>99</Order>
+			</RunSynchronousCommand>
+
+        </RunSynchronous>
+	</component>
+	<component name="Microsoft-Windows-Shell-Setup" 
+	processorArchitecture="amd64"
+	publicKeyToken="31bf3856ad364e35" language="neutral"
+	versionScope="nonSxS"
+	xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<RegisteredOrganization>Any Organization</RegisteredOrganization>
+		<RegisteredOwner>Any Owner</RegisteredOwner>
+		<TimeZone>GMT Standard Time</TimeZone>
+		<ComputerName>*</ComputerName>
+    </component>
+</settings>
+
+<settings pass="oobeSystem">
+	<component name="Microsoft-Windows-International-Core"
+	processorArchitecture="amd64"
+	publicKeyToken="31bf3856ad364e35" language="neutral"
+	versionScope="nonSxS"
+	xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<InputLocale>en-GB</InputLocale>
+		<SystemLocale>en-GB</SystemLocale>
+		<UILanguage>en-GB</UILanguage>
+		<UserLocale>en-GB</UserLocale>
+	</component>
+	<component name="Microsoft-Windows-Shell-Setup"
+	processorArchitecture="amd64"
+	publicKeyToken="31bf3856ad364e35" language="neutral"
+	versionScope="nonSxS"
+	xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<OOBE>
+			<HideEULAPage>true</HideEULAPage>
+			<HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+			<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+			<NetworkLocation>Work</NetworkLocation>
+			<ProtectYourPC>1</ProtectYourPC>
+			<HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+			<HideLocalAccountScreen>true</HideLocalAccountScreen>
+		</OOBE>
+		<UserAccounts>
+			<AdministratorPassword>
+				<Value></Value>
+				<PlainText>true</PlainText>
+			</AdministratorPassword>
+			<LocalAccounts>
+				<LocalAccount wcm:action="add">
+				<Password>
+						<Value>Pa55word</Value>
+						<PlainText>True</PlainText>
+				</Password>
+				<Description>Standard User account</Description>
+				<DisplayName>User Account</DisplayName>
+				<Group>Users</Group>
+				<Name>UserAccount</Name>
+				</LocalAccount>
+			</LocalAccounts>
+		</UserAccounts>
+	</component>
+</settings>
+
+<settings pass="windowsPE">
+	<component name="Microsoft-Windows-Shell-Setup"
+	processorArchitecture="amd64"
+	publicKeyToken="31bf3856ad364e35" language="neutral"
+	versionScope="nonSxS"
+	xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<UserData>
+			<AcceptEula>true</AcceptEula>
+			<ProductKey>
+				<WillShowUI>OnError</WillShowUI>
+				<Key>NQVPD-9WY2R-9TTTY-CMTMF-8426G</Key>
+			</ProductKey>
+		</UserData>
+	</component>
+</settings>
+
+</unattend>
